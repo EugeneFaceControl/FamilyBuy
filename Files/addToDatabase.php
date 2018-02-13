@@ -15,20 +15,23 @@ if ($conn->connect_error) {
 $who = $_POST["ip"];
 $ipName = "";
 switch ($_POST["ip"]) {
+	case '192.168.0.100':
+		$ipName = "Eugene Phone";
+		break;
+	case '192.168.0.102':
+		$ipName = "Sheyma TV";
+		break;	
+	case '192.168.0.103':
+		$ipName = "Sergey ZTE";
+		break;
+	case '192.168.0.104':
+		$ipName = "Sheyma PC";
+		break;
 	case '192.168.0.106':
 		$ipName = "Eugene Lenovo";
 		break;
 	case '192.168.0.107':
 		$ipName = "Tanya Phone";
-		break;
-	case '192.168.0.103':
-		$ipName = "Sergey ZTE";
-		break;
-	case '192.168.0.100':
-		$ipName = "Eugene Phone";
-		break;
-	case '192.168.0.104':
-		$ipName = "Sheyma PC";
 		break;
 	default:
 		
