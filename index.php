@@ -11,15 +11,15 @@
 	<div class="container">
 		<h2 id="FamilyHeader">Family calculator</h2>
 		<div class="row">
-			<div class="col-xs-12">
+			<div class="col-xs-12 col-lg-6">
 				<form action="Files/addToDatabase.php" method="post">
 					<div class="form-group">
 						<label for="date">Дата:</label>
-						<input type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>">
+						<input class="form-control" type="date" id="date" name="date" value="<?php echo date('Y-m-d'); ?>">
 					</div>
 					<div class="form-group">
 						<label for="price">Цена:</label> 
-						<input type="text" id="priceToEnter" required="required" name="priceToEnter">
+						<input class="form-control" type="text" id="priceToEnter" required="required" name="priceToEnter">
 						<input type="hidden" name="price" id="price"/>
 						<script type="text/javascript">
 							document.getElementById('priceToEnter').addEventListener('input', function() {
@@ -33,7 +33,7 @@
 					</div>
 					<div class="form-group">
 						<lavel for="familyMember"><b>Продукция:</b></lavel>
-						<select id="familyMember" name="familyMember">
+						<select  class="form-control" id="familyMember" name="familyMember">
 							<option>Остальное</option>
 							<option>Мясная продукция</option>
 							<option>Крупы</option>
@@ -54,12 +54,7 @@
 				</form>
 			</div>
 			<!-- Delete -->
-			<!-- <div class="col-sm-6">
-				<form action="Files/deleteRow.php" method="post">
-					id : <input type="text" name="id"><br>
-					<input type="submit">
-				</form>
-			</div> -->
+			
 		</div>
 		<div class="table-responsive">
 			<table class="table">
@@ -131,6 +126,14 @@
 				$conn->close();
 				?>
 			</table>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-lg-6">
+				<form action="Files/deleteRow.php" method="post">
+					id : <input  class="form-control" type="text" name="id"><br>
+					<input  class="form-control" value="Удалить" class="btn btn-default" type="submit">
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

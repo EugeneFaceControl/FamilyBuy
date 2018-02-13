@@ -22,13 +22,10 @@ switch ($_POST["ip"]) {
 		$ipName = "Tanya Phone";
 		break;
 	case '192.168.0.103':
-		$ipName = "Sheyma TV";
+		$ipName = "Sergey ZTE";
 		break;
 	case '192.168.0.100':
 		$ipName = "Eugene Phone";
-		break;
-	case '192.168.0.102':
-		$ipName = "Sergey ZTE";
 		break;
 	case '192.168.0.104':
 		$ipName = "Sheyma PC";
