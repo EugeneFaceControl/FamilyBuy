@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Print session</title>
+</head>
+<body>
+	<div id="printLocal"></div>
+	<div id="printSession"></div>	
+	<script type="text/javascript">
+		var valuesLocal = [],
+		keysLocal = Object.keys(localStorage),
+		iLocal = keysLocal.length;
+
+		var valuesSession = [],
+		keysSession = Object.keys(sessionStorage),
+		iSession = keysSession.length;
+
+		while(iLocal--){
+			valuesLocal.push(localStorage.getItem(keysLocal[iLocal]));
+		}
+
+		while(iSession--){
+			valuesSession.push(sessionStorage.getItem(keysSession[iSession]));
+		}
+		document.getElementById('printLocal').innerText = valuesLocal.toString();
+		document.getElementById('printSession').innerText = valuesSession.toString();
+		console.log(valuesLocal.toString());
+		console.log(valuesSession.toString());
+	</script>
+</body>
+</html>
