@@ -82,13 +82,13 @@
 					$dbname = $ini_array["dbname"];
 					$tablename = $ini_array["tablename"];
 
-	// Create connection
+					// Create connection
 					$conn = new mysqli($servername, $username, $password, $dbname);
 
 					/* изменение набора символов на utf8 */
-		// $conn->set_charset("utf8");
+					// $conn->set_charset("utf8");
 
-	// Check connection
+					// Check connection
 					if ($conn->connect_error) {
 						die("Connection failed: " . $conn->connect_error);
 					} 
@@ -96,9 +96,8 @@
 					$sql = "SELECT * FROM ". $tablename;
 					$result = $conn->query($sql);
 
-					$resultSum = mysqli_query($conn, "SELECT SUM(price) FROM " . $tablename);
-					$rowSum = mysqli_fetch_assoc($resultSum);
-					$sum = $rowSum[0];
+					$dates = mysqli_query($conn, "SELECT DISTINCT `date` FROM " . $tablename);
+					$d = mysqli_fetch_array($dates);
 					$realSum = 0;
 					if ($result->num_rows > 0) {
     	// output data of each row
@@ -107,7 +106,7 @@
 							?>
 							<tr>
 								<td><?php echo $row["id"]?></td>
-								<td><?php echo $row["date"]?></td>
+								<td class="date"><?php echo $row["date"]?></td>
 								<td><b><?php echo $row["price"]?></b></td>
 								<td><?php echo $row["who"]?></td>
 							</tr>
@@ -116,7 +115,7 @@
 						?>
 						<tr>
 							<td></td>
-							<td></td>
+							<td><?php echo count($d)?></td>
 							<td id="bottom"><b><?php echo $realSum?></b></td>
 							<td><a href="#FamilyHeader">Подняться вверх</a></td>
 						</tr>
