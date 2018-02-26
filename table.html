@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Family calculator</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<script>
+		var app = angular.module('myApp', []);
+		app.controller('customersCtrl', function($scope, $http) {
+			$http.get("data.php")
+			.then(function (response) {$scope.names = response.data.records;});
+		});
+
+		$(document).ready( function() {
+			var lastDate = sessionStorage.getItem('date');
+			if(lastDate){
+				document.getElementById('date').value = getDate(new Date(lastDate));
+			} else {
+				document.getElementById('date').value = getDate(new Date());
+			}
+			
+			document.getElementById('priceToEnter').addEventListener('input', function() {
+				document.getElementById('price').value = this.value.replace(',', '.');
+			});
+			document.getElementById('date').addEventListener('input', function() {
+				var a = document.getElementById("date");
+				sessionStorage.setItem("date", new Date(a.value));
+			});
+		});
+		
+		function getDate(now){
+			var day = ("0" + now.getDate()).slice(-2);
+			var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+			var today = now.getFullYear()+"-"+(month)+"-"+(day);
+			return today;
+		}
+	</script>
+	<div class="container">
+		<div ng-app="myApp" ng-controller="customersCtrl">
+			<h2>Family calculator</h2>
+			<div class="row">
+				<div class="col-xs-12">
+					<form action="Files/addToDatabase.php" method="post">
+						<div class="form-group">
+							<label for="date">Date:</label>
+							<input type="date" id="date" name="date">
+						</div>
+						<div class="form-group">
+							<label for="price">Цена:</label> 
+							<input type="text" id="priceToEnter" required="required" name="priceToEnter">
+							<input type="hidden" name="price" id="price"/>
+						</div>
+						<div class="form-group">
+							<label for="familyMember">Продукция:</label>
+							<select id="familyMember" name="familyMember">
+								<option>Мясная продукция</option>
+								<option>Овощи, фрукты</option>
+								<option>Остальное</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<input value="Подтвердить" type="submit" class="btn btn-default">
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#collapseExample1" href="#collapseExample1">2018-02-04</a>
+					</h4>
+				</div>
+				<div class="panel-collapse collapse" id="collapseExample1">
+					<div class="panel-heading">
+						<div class="panel-body">
+							<div class="panel-group" id="accordion2">
+								<div class="panel">
+									<a data-toggle="collapse" data-parent="#table1" href="#table1">Details</a>
+								</div>
+								<div id="table1" class="panel-collapse collapse">
+									<table class="table">
+								<tr>
+									<th>
+										№
+									</th>
+									<th>
+										Цена
+									</th>
+									<th>
+										Что купил
+									</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>123</td>
+									<td>Остальное</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>346</td>
+									<td>Остальное</td>
+								</tr>
+							</table>
+								</div>
+
+								<div class="panel">
+									<a data-toggle="collapse" data-parent="#table2" href="#table2">Details</a>
+								</div>
+								<div id="table2" class="panel-collapse collapse">
+									<table class="table">
+								<tr>
+									<th>
+										№
+									</th>
+									<th>
+										Цена
+									</th>
+									<th>
+										Что купил
+									</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>123</td>
+									<td>Остальное</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>346</td>
+									<td>Остальное</td>
+								</tr>
+							</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" data-parent="#collapseExample1" href="#collapseExample1">2018-02-04</a>
+					</h4>
+				</div>
+			</div>
+			
+			<!-- <p>
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample1" data-expanded="false" aria-controls="collapseExample1">2018-02-04</button>
+			</p>
+			<div class="collapse" id="collapseExample1">
+				<div class="card card-body">
+					<div class="table-responsive">
+						<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#table1" data-expanded="false" aria-controls="table1">Caption</button>
+						<div id="table1">
+							<table class="table">
+								<tr>
+									<th>
+										№
+									</th>
+									<th>
+										Цена
+									</th>
+									<th>
+										Что купил
+									</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>123</td>
+									<td>Остальное</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td>346</td>
+									<td>Остальное</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p>
+				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" data-expanded="false" aria-controls="collapseExample2">2018-02-05</button>
+			</p>
+			<div class="collapse" id="collapseExample2">
+				<div class="card card-body">
+					<div class="table-responsive">
+						<table class="table">
+							<tr>
+								<th>
+									№
+								</th>
+								<th>
+									Цена
+								</th>
+								<th>
+									Что купил
+								</th>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>123</td>
+								<td>Остальное</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>346</td>
+								<td>Остальное</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+</body>
+</html>

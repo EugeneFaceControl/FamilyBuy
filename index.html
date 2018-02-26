@@ -1,107 +1,75 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<title>Family calculator</title>
+	<title>Results</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<script>
 		var app = angular.module('myApp', []);
 		app.controller('customersCtrl', function($scope, $http) {
 			$http.get("data.php")
-			.then(function (response) {$scope.names = response.data.records;});
+			.then(function(response) {
+				$scope.names = response.data.records;
+				$scope.types = [...new Set($scope.names.map(v => v.What))];
+				$scope.dates = [...new Set($scope.names.map(v => v.Date))];
+				console.log($scope.names);
+			});
 		});
 	</script>
 	<div class="container">
 		<div ng-app="myApp" ng-controller="customersCtrl">
-		<h2>Family calculator</h2>
-		<div class="row">
-			<div class="col-xs-12">
-				<form action="Files/addToDatabase.php" method="post">
-					<div class="form-group">
-						<label for="date">Date:</label>
-						<input type="date" id="date" name="date">
+			<h2>Results</h2>
+			<div ng-repeat="(key, value) in types">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#typeOfProduct{{key}}" href="#typeOfProduct{{key}}">{{value}}</a>
+						</h4>
 					</div>
-					<div class="form-group">
-						<label for="price">Цена:</label> 
-						<input type="text" id="priceToEnter" required="required" name="priceToEnter">
-						<input type="hidden" name="price" id="price"/>
-						<script type="text/javascript">
-						$(document).ready( function() {
-							var lastDate = sessionStorage.getItem('date');
-							if(lastDate){
-								document.getElementById('date').value = getDate(new Date(lastDate));
-							} else {
-								document.getElementById('date').value = getDate(new Date());
-							}
-							
-							document.getElementById('priceToEnter').addEventListener('input', function() {
-								document.getElementById('price').value = this.value.replace(',', '.');
-							});
-							document.getElementById('date').addEventListener('input', function() {
-								var a = document.getElementById("date");
-								sessionStorage.setItem("date", new Date(a.value));
-							});
-						});
-						
-						function getDate(now){
-							var day = ("0" + now.getDate()).slice(-2);
-							var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-							var today = now.getFullYear()+"-"+(month)+"-"+(day);
-							return today;
-						}
-						</script>
+					<div class="panel-collapse collapse" id="typeOfProduct{{key}}">
+						<div class="panel-heading">
+							<div class="panel-body">
+								<div class="panel-group" id="accordion2">
+									<div ng-repeat="(dataKey, dataValue) in dates">
+										<div class="panel">
+											<a data-toggle="collapse" data-parent="#tableOfProducts{{key}}{{dataKey}}" href="#tableOfProducts{{key}}{{dataKey}}">{{dataValue}}</a>
+										</div>
+										<div class="panel-collapse collapse" id="tableOfProducts{{key}}{{dataKey}}">
+											<table class="table">
+												<tr>
+													<th>
+														№
+													</th>
+													<th>
+														Цена
+													</th>
+												</tr>
+												<tr ng-repeat="x in names">
+													<td>{{ x.Id }}</td>
+													<td>{{ x.Price }}</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td></td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="familyMember">Продукция:</label>
-						<select id="familyMember" name="familyMember">
-							<option>Мясная продукция</option>
-							<option>Овощи, фрукты</option>
-							<option>Остальное</option>
-						</select>
-					</div>
-					<div class="form-group">
-						<input value="Подтвердить" type="submit" class="btn btn-default">
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="table-responsive">
-				<table class="table">
-					<tr>
-						<th>
-							№
-						</th>
-						<th>
-							Дата
-						</th>
-						<th>
-							Цена
-						</th>
-						<th>
-							Что купил
-						</th>
-					</tr>
-					<tr ng-repeat="x in names">
-						<td>{{ x.Id }}</td>
-						<td>{{ x.Date }}</td>
-						<td>{{ x.Price }}</td>
-						<td>{{ x.What }}</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</table>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>
